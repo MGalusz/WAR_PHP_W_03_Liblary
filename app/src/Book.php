@@ -20,8 +20,7 @@ class Book implements JsonSerializable {
             $qurey = "INSERT INTO books(id,title,author,description)"
                     . "VALUES('$this->id','$this->title','$this->description')";
                  if ($connection->query($query)) {
-                     var_dump($query);
-                     
+                                          
                 $this->id = $connection->insert_id;
                 return TRUE;
             } else {

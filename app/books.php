@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     
     echo json_encode($books);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    echo 'dziala';
+   
     if(isset($_POST['title'])&& strlen($_POST['title'])>0 && 
     isset($_POST['author']) && strlen($_POST['author'])>0 &&
     isset($_POST['description']) && strlen($_POST['description'])>0){
@@ -37,12 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $book->setTitle($_POST['title']);
         $book->setDescription($_POST['description']);
         $book->addBook($conn);
+       
         
-        var_dump($book)     ;
         
+   echo json_encode( $book);
     }
     
-    //echo json_encode([]);
+    
     
     //zgodnie z rest POST dodaje dane
 } elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
