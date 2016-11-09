@@ -17,9 +17,11 @@ class Book implements JsonSerializable {
     
     public function addBook(mysqli $connection ){
         if($this->id ==-1){
-            $qurey = "INSERT INTO books(id,title,author,description)"
-                    . "VALUES('$this->id','$this->title','$this->description')";
-                 if ($connection->query($query)) {
+            $qurey = "INSERT INTO `books`('id','title','author','description')"
+                    . "VALUES('$this->id','$this->title','$this->author','$this->description')";
+           
+            
+                 if ($connection->query($qurey)) {
                                           
                 $this->id = $connection->insert_id;
                 return TRUE;
@@ -27,19 +29,26 @@ class Book implements JsonSerializable {
                 return FALSE;
             }
         }else{
-             $query = "UPDATE Tweet"
+             $qurey = "UPDATE `books`"
                      . "SET title = '$this->title',author='$this->author',description='$this->description'"
                      . "WHERE id= $this->id";
+                if ($connection->query($qurey)) {
+                                          
+                $this->id = $connection->insert_id;
+                return TRUE;
+            } else {
+                return FALSE;
+            }
             
         }
     }
     
-    public function delete(mysqli $connetion) {
-        if ($this->id != -1) {
-            $query = "DELETE FROM book WHERE id = $this->id";
-            if ($connetion->query($query)) {
-                $this->id = -1;
-                return TRUE;
+    public static function delete(mysqli $connetion,$id) {
+        if ($id != -1) {
+            $query = "DELETE FROM books WHERE id ='".$id."'";
+            $results =$connetion->query($query);
+            if ($results!= FALSE && $results->num_rows == 1) {
+               return  $results->fetch_assoc();
             } else {
                 return false;
             }
@@ -100,6 +109,10 @@ class Book implements JsonSerializable {
 
     function getDescription() {
         return $this->description;
+    }
+    
+    function setId($id){
+        $this->id=$id;
     }
 
     function setTitle($title) {
